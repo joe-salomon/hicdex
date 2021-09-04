@@ -32,12 +32,12 @@ from dipdup.utils import import_submodules, mkdir_p, pascal_to_snake, snake_to_p
 DEFAULT_DOCKER_ENV_FILE_CONTENT = dict(
     POSTGRES_USER="dipdup",
     POSTGRES_DB="dipdup",
-    POSTGRES_PASSWORD="changeme",
-    HASURA_GRAPHQL_DATABASE_URL="postgres://dipdup:changeme@db:5432/dipdup",
+    POSTGRES_PASSWORD="flipco00",
+    HASURA_GRAPHQL_DATABASE_URL="postgres://dipdup:flipco00@db:5432/dipdup",
     HASURA_GRAPHQL_ENABLE_CONSOLE="true",
     HASURA_GRAPHQL_DEV_MODE="true",
     HASURA_GRAPHQL_ENABLED_LOG_TYPES="startup, http-log, webhook-log, websocket-log, query-log",
-    HASURA_GRAPHQL_ADMIN_SECRET="changeme",
+    HASURA_GRAPHQL_ADMIN_SECRET="flipco00",
     HASURA_GRAPHQL_UNAUTHORIZED_ROLE="user",
 )
 DEFAULT_DOCKER_IMAGE = 'dipdup/dipdup'
