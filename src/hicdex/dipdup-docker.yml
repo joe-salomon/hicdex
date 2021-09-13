@@ -3,7 +3,7 @@ database:
   host: db
   port: 5432
   user: ${POSTGRES_USER:-dipdup}
-  password: ${POSTGRES_PASSWORD:-flipco00}
+  password: ${RDS_PASSWORD:-flipco00}
   database: ${POSTGRES_DB:-dipdup}
   schema_name: hic_et_nunc
 
