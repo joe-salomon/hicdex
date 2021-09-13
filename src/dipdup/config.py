@@ -71,8 +71,8 @@ class PostgresDatabaseConfig:
 
     kind: Literal['postgres']
     host: str
-    user: str = 'postgres'
-    database: str = 'postgres'
+    user: str = 'dipdup'
+    database: str = 'dipdup'
     port: int = 5432
     schema_name: str = 'public'
     password: str = ''

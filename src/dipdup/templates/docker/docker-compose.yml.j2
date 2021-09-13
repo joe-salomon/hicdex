@@ -25,7 +25,7 @@ services:
       - db:/var/lib/postgres/data
     env_file: {{env_file}} 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U dipdup"]
       interval: 10s
       timeout: 5s
       retries: 5
