@@ -22,7 +22,7 @@ services:
     image: postgres:12
     shm_size: 6g
     ports:
-      - 6423:5432
+      - 5432:5432
     restart: always
     volumes:
       - /var/lib/postgresql/data
