@@ -1,4 +1,4 @@
-api.hicdex.com {
+localhost {
 	handle_path /graphiql* {
 		root * /srv/api.hicdex.com
 		file_server
