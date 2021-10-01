@@ -81,11 +81,13 @@ async def get_metadata(token):
         with open(file_path(token.id),'+') as json_file:
             metadata = json.load(json_file)
             failed_attempt = metadata.get('__failed_attempt')
+            _logger.info(metadata)
             if (failed_attempt and failed_attempt) or metadata == '' > 10:
                 return {}
             if not failed_attempt:
                 return metadata
     except Exception:
+        _logger.info(logging.exception(''))
         pass
 
     data = await fetch_metadata_cf_ipfs(token, failed_attempt)
