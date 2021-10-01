@@ -78,7 +78,7 @@ async def get_subjkt_metadata(holder):
 async def get_metadata(token):
     failed_attempt = 0
     try:
-        with open(file_path(token.id),'+') as json_file:
+        with open(file_path(token.id)) as json_file:
             metadata = json.load(json_file)
             failed_attempt = metadata.get('__failed_attempt')
             _logger.info(metadata)
