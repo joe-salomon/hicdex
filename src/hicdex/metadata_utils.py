@@ -78,10 +78,10 @@ async def get_subjkt_metadata(holder):
 async def get_metadata(token):
     failed_attempt = 0
     try:
-        with open(file_path(token.id)) as json_file:
+        with open(file_path(token.id),'+') as json_file:
             metadata = json.load(json_file)
             failed_attempt = metadata.get('__failed_attempt')
-            if failed_attempt and failed_attempt > 10:
+            if (failed_attempt and failed_attempt) or metadata == '' > 10:
                 return {}
             if not failed_attempt:
                 return metadata
@@ -147,7 +147,7 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
             return data[0]
         with open(file_path(token.id), 'w') as write_file:
             json.dump({'__failed_attempt': failed_attempt + 1}, write_file)
-    except:
+    except FileNotFoundError:
         pass
     return {}
 
