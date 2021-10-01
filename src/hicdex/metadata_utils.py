@@ -1,6 +1,7 @@
 import json
 import logging
 from pathlib import Path
+from os.path import exists
 
 import aiohttp
 from tortoise.query_utils import Q
@@ -36,7 +37,7 @@ async def fix_token_metadata(token):
 
 
 async def fix_other_metadata():
-    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(30)
+    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(1)
     for token in tokens:
         fixed = await fix_token_metadata(token)
         if fixed:
@@ -77,21 +78,27 @@ async def get_subjkt_metadata(holder):
 
 async def get_metadata(token):
     failed_attempt = 0
-    try:
-        with open(file_path(token.id),'+') as json_file:
-            metadata = json.load(json_file)
-            failed_attempt = metadata.get('__failed_attempt')
-            if (failed_attempt and failed_attempt) or metadata == '' > 10:
-                return {}
-            if not failed_attempt:
-                return metadata
-    except Exception:
-        pass
+    if exists(file_path(token.id)):
+        try:
+            with open(file_path(token.id)) as json_file:
+                metadata = json.load(json_file)
+                failed_attempt = metadata.get('__failed_attempt')
+                artifact_uri = metadata.get('artifact_uri')
+                # _logger.info(metadata)
+                # if failed_attempt and failed_attempt > 10:
+                #     return {}
+                if not failed_attempt and artifact_uri != '':
+                    return metadata
+        except Exception:
+            _logger.info(logging.exception(''))
+            pass
+
 
     data = await fetch_metadata_cf_ipfs(token, failed_attempt)
     if data != {}:
         _logger.info(f'metadata for {token.id} from IPFS')
     else:
+        _logger.info(f'attempt {token.id} from BCD')
         data = await fetch_metadata_bcd(token, failed_attempt)
         if data != {}:
             _logger.info(f'metadata for {token.id} from BCD')
@@ -137,11 +144,13 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
         url=f'https://api.better-call.dev/v1/tokens/mainnet/metadata?contract:KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9&token_id={token.id}',
     )
     await session.close()
-
+    # _logger.info(data)
     data = [
-        obj for obj in data if 'symbol' in obj and (obj['symbol'] == 'OBJKT' or obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton')
+        # obj for obj in data if 'symbol' in obj and (obj['symbol'] == 'OBJKT' or obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton')
+        obj for obj in data if obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton'
     ]
     try:
+        # _logger.info(data)
         if data and not isinstance(data[0], list):
             write_metadata_file(token, data[0])
             return data[0]
@@ -207,7 +216,7 @@ def get_description(metadata):
 
 
 def get_artifact_uri(metadata):
-    return clean_null_bytes(metadata.get('artifact_uri', '') or metadata.get('artifactUri', ''))
+    return clean_null_bytes(metadata.get('artifact_uri', '') or metadata.get('artifactUri', '') or metadata.get('token_info').get('@@empty'))
 
 
 def get_display_uri(metadata):
