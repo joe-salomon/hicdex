@@ -147,7 +147,7 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
             return data[0]
         with open(file_path(token.id), 'w') as write_file:
             json.dump({'__failed_attempt': failed_attempt + 1}, write_file)
-    except FileNotFoundError:
+    except:
         pass
     return {}
 
