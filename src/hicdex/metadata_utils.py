@@ -146,7 +146,7 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
     _logger.info(data)
     data = [
         # obj for obj in data if 'symbol' in obj and (obj['symbol'] == 'OBJKT' or obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton')
-        obj for obj in data if obj['symbol'] == 'OBJKT' or obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton'
+        obj for obj in data if obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton'
     ]
     try:
         _logger.info(data)
