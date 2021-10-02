@@ -149,7 +149,6 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
     ]
     try:
         _logger.info(data)
-        _logger.info(isinstance(data[0], list))
         if data and not isinstance(data[0], list):
             write_metadata_file(token, data[0])
             return data[0]
