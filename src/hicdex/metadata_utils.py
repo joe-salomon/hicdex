@@ -83,7 +83,7 @@ async def get_metadata(token):
             with open(file_path(token.id)) as json_file:
                 metadata = json.load(json_file)
                 failed_attempt = metadata.get('__failed_attempt')
-                _logger.info(metadata)
+                # _logger.info(metadata)
                 # if failed_attempt and failed_attempt > 10:
                 #     return {}
                 if not failed_attempt:
@@ -97,6 +97,7 @@ async def get_metadata(token):
     if data != {}:
         _logger.info(f'metadata for {token.id} from IPFS')
     else:
+        _logger.info(f'attempt {token.id} from BCD')
         data = await fetch_metadata_bcd(token, failed_attempt)
         if data != {}:
             _logger.info(f'metadata for {token.id} from BCD')
