@@ -148,6 +148,8 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
         obj for obj in data if 'symbol' in obj and (obj['symbol'] == 'OBJKT' or obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton')
     ]
     try:
+        _logger.info(data)
+        _logger.info(isinstance(data[0], list))
         if data and not isinstance(data[0], list):
             write_metadata_file(token, data[0])
             return data[0]
