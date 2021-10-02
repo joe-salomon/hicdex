@@ -216,7 +216,7 @@ def get_description(metadata):
 
 
 def get_artifact_uri(metadata):
-    return clean_null_bytes(metadata.get('artifact_uri', '') or metadata.get('artifactUri', ''))
+    return clean_null_bytes(metadata.get('artifact_uri', '') or metadata.get('artifactUri', '') or metadata.get('token_info').get('@@empty'))
 
 
 def get_display_uri(metadata):
