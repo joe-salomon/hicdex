@@ -82,7 +82,7 @@ async def get_metadata(token):
             metadata = json.load(json_file)
             failed_attempt = metadata.get('__failed_attempt')
             _logger.info(metadata)
-            if (failed_attempt and failed_attempt) or metadata == '' > 10:
+            if failed_attempt and failed_attempt > 10:
                 return {}
             if not failed_attempt:
                 return metadata
