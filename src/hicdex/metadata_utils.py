@@ -1,6 +1,7 @@
 import json
 import logging
 from pathlib import Path
+from os.path import exists
 
 import aiohttp
 from tortoise.query_utils import Q
@@ -77,18 +78,20 @@ async def get_subjkt_metadata(holder):
 
 async def get_metadata(token):
     failed_attempt = 0
-    try:
-        with open(file_path(token.id)) as json_file:
-            metadata = json.load(json_file)
-            failed_attempt = metadata.get('__failed_attempt')
-            _logger.info(metadata)
-            if failed_attempt and failed_attempt > 10:
-                return {}
-            if not failed_attempt:
-                return metadata
-    except Exception:
-        _logger.info(logging.exception(''))
-        pass
+    if exists(file_path(token.id)):
+        try:
+            with open(file_path(token.id)) as json_file:
+                metadata = json.load(json_file)
+                failed_attempt = metadata.get('__failed_attempt')
+                _logger.info(metadata)
+                if failed_attempt and failed_attempt > 10:
+                    return {}
+                if not failed_attempt:
+                    return metadata
+        except Exception:
+            _logger.info(logging.exception(''))
+            pass
+        
 
     data = await fetch_metadata_cf_ipfs(token, failed_attempt)
     if data != {}:
