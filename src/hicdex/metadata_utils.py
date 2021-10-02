@@ -37,7 +37,7 @@ async def fix_token_metadata(token):
 
 
 async def fix_other_metadata():
-    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(30)
+    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(1)
     for token in tokens:
         fixed = await fix_token_metadata(token)
         if fixed:
@@ -83,10 +83,11 @@ async def get_metadata(token):
             with open(file_path(token.id)) as json_file:
                 metadata = json.load(json_file)
                 failed_attempt = metadata.get('__failed_attempt')
+                artifact_uri = metadata.get('artifact_uri')
                 # _logger.info(metadata)
                 # if failed_attempt and failed_attempt > 10:
                 #     return {}
-                if not failed_attempt:
+                if not failed_attempt and artifact_uri != '':
                     return metadata
         except Exception:
             _logger.info(logging.exception(''))
