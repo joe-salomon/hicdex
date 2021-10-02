@@ -144,13 +144,13 @@ async def fetch_metadata_bcd(token, failed_attempt=0):
         url=f'https://api.better-call.dev/v1/tokens/mainnet/metadata?contract:KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9&token_id={token.id}',
     )
     await session.close()
-    _logger.info(data)
+    # _logger.info(data)
     data = [
         # obj for obj in data if 'symbol' in obj and (obj['symbol'] == 'OBJKT' or obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton')
         obj for obj in data if obj['contract'] == 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton'
     ]
     try:
-        _logger.info(data)
+        # _logger.info(data)
         if data and not isinstance(data[0], list):
             write_metadata_file(token, data[0])
             return data[0]
