@@ -38,13 +38,18 @@ async def fix_token_metadata(token):
 
 
 async def fix_other_metadata():
-    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(30)
-    for token in tokens:
-        fixed = await fix_token_metadata(token)
-        if fixed:
-            _logger.info(f'fixed metadata for {token.id}')
-        else:
-            _logger.info(f'failed to fix metadata for {token.id}')
+    try:
+        tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(30)
+        for token in tokens:
+            fixed = await fix_token_metadata(token)
+            if fixed:
+                _logger.info(f'fixed metadata for {token.id}')
+            else:
+                _logger.info(f'failed to fix metadata for {token.id}')
+    except Exception:
+        _logger.info(logging.exception(''))
+        pass
+
 
 
 async def add_tags(token, metadata):
