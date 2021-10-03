@@ -85,14 +85,13 @@ async def get_metadata(token):
                 failed_attempt = metadata.get('__failed_attempt')
                 artifact_uri = metadata.get('artifact_uri')
                 # _logger.info(metadata)
-                # if failed_attempt and failed_attempt > 10:
-                #     return {}
+                if failed_attempt and failed_attempt > 10:
+                    return {}
                 if not failed_attempt and artifact_uri != '' and metadata != '' and type(metadata) != type(None) and metadata != {}:
                     return metadata
         except Exception:
             _logger.info(logging.exception(''))
             pass
-
 
     data = await fetch_metadata_cf_ipfs(token, failed_attempt)
     if data != {}:
