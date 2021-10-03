@@ -38,7 +38,7 @@ async def fix_token_metadata(token):
 
 
 async def fix_other_metadata():
-    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(1)
+    tokens = await models.Token.filter(Q(artifact_uri='') & ~Q(id__in=broken_ids)).all().order_by('id').limit(30)
     for token in tokens:
         fixed = await fix_token_metadata(token)
         if fixed:
