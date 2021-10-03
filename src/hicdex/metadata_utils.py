@@ -1,4 +1,3 @@
-from _typeshed import NoneType
 import json
 import logging
 from pathlib import Path
@@ -88,7 +87,7 @@ async def get_metadata(token):
                 # _logger.info(metadata)
                 # if failed_attempt and failed_attempt > 10:
                 #     return {}
-                if not failed_attempt and artifact_uri != '' and metadata != '' and metadata != None and metadata != NoneType:
+                if not failed_attempt and artifact_uri != '' and metadata != '' and type(metadata) != type(None):
                     return metadata
         except Exception:
             _logger.info(logging.exception(''))
