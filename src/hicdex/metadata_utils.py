@@ -24,15 +24,16 @@ except:
 
 async def fix_token_metadata(token):
     metadata = await get_metadata(token)
-    token.title = get_name(metadata)
-    token.description = get_description(metadata)
-    token.artifact_uri = get_artifact_uri(metadata)
-    token.display_uri = get_display_uri(metadata)
-    token.thumbnail_uri = get_thumbnail_uri(metadata)
-    token.mime = get_mime(metadata)
-    token.extra = metadata.get('extra', {})
-    await add_tags(token, metadata)
-    await token.save()
+    if metadata != {}:
+        token.title = get_name(metadata)
+        token.description = get_description(metadata)
+        token.artifact_uri = get_artifact_uri(metadata)
+        token.display_uri = get_display_uri(metadata)
+        token.thumbnail_uri = get_thumbnail_uri(metadata)
+        token.mime = get_mime(metadata)
+        token.extra = metadata.get('extra', {})
+        await add_tags(token, metadata)
+        await token.save()
     return metadata != {}
 
 
