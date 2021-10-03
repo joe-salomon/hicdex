@@ -16,22 +16,25 @@ async def on_swap_v2(
 
     is_valid = swap.parameter.creator == token.creator_id and int(swap.parameter.royalties) == int(token.royalties)  # type: ignore
 
-    swap_model = models.Swap(
-        id=swap_id,  # type: ignore
-        creator=holder,
-        token=token,
-        price=swap.parameter.xtz_per_objkt,
-        amount=swap.parameter.objkt_amount,
-        amount_left=swap.parameter.objkt_amount,
-        status=models.SwapStatus.ACTIVE,
-        ophash=swap.data.hash,
-        level=swap.data.level,
-        timestamp=swap.data.timestamp,
-        royalties=swap.parameter.royalties,
-        contract_version=2,
-        is_valid=is_valid,
-    )
-    await swap_model.save()
+    try:
+        swap_model = models.Swap(
+            id=swap_id,  # type: ignore
+            creator=holder,
+            token=token,
+            price=swap.parameter.xtz_per_objkt,
+            amount=swap.parameter.objkt_amount,
+            amount_left=swap.parameter.objkt_amount,
+            status=models.SwapStatus.ACTIVE,
+            ophash=swap.data.hash,
+            level=swap.data.level,
+            timestamp=swap.data.timestamp,
+            royalties=swap.parameter.royalties,
+            contract_version=2,
+            is_valid=is_valid,
+        )
+        await swap_model.save()
+    except Exception:
+        pass
 
     await fix_other_metadata()
     if not token.artifact_uri and not token.title:
