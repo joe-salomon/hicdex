@@ -9,24 +9,27 @@ async def on_collect_v2(
     ctx: HandlerContext,
     collect: Transaction[CollectParameter, HenSwapV2Storage],
 ) -> None:
-    swap = await models.Swap.filter(id=int(collect.parameter.__root__)).get()
-    seller = await swap.creator
-    buyer, _ = await models.Holder.get_or_create(address=collect.data.sender_address)
-    token = await swap.token.get()  # type: ignore
+    try:
+        swap = await models.Swap.filter(id=int(collect.parameter.__root__)).get()
+        seller = await swap.creator
+        buyer, _ = await models.Holder.get_or_create(address=collect.data.sender_address)
+        token = await swap.token.get()  # type: ignore
 
-    trade = models.Trade(
-        swap=swap,
-        seller=seller,
-        buyer=buyer,
-        token=token,
-        amount=1,
-        ophash=collect.data.hash,
-        level=collect.data.level,
-        timestamp=collect.data.timestamp,
-    )
-    await trade.save()
+        trade = models.Trade(
+            swap=swap,
+            seller=seller,
+            buyer=buyer,
+            token=token,
+            amount=1,
+            ophash=collect.data.hash,
+            level=collect.data.level,
+            timestamp=collect.data.timestamp,
+        )
+        await trade.save()
 
-    swap.amount_left -= 1  # type: ignore
-    if swap.amount_left == 0:
-        swap.status = models.SwapStatus.FINISHED
-    await swap.save()
+        swap.amount_left -= 1  # type: ignore
+        if swap.amount_left == 0:
+            swap.status = models.SwapStatus.FINISHED
+        await swap.save()
+    except Exception:
+        pass
