@@ -10,13 +10,13 @@ async def on_swap_v2(
     ctx: HandlerContext,
     swap: Transaction[SwapParameter, HenSwapV2Storage],
 ) -> None:
-    holder, _ = await models.Holder.get_or_create(address=swap.data.sender_address)
-    token, _ = await models.Token.get_or_create(id=int(swap.parameter.objkt_id))
-    swap_id = int(swap.storage.counter) - 1
-
-    is_valid = swap.parameter.creator == token.creator_id and int(swap.parameter.royalties) == int(token.royalties)  # type: ignore
-
     try:
+        holder, _ = await models.Holder.get_or_create(address=swap.data.sender_address)
+        token, _ = await models.Token.get_or_create(id=int(swap.parameter.objkt_id))
+        swap_id = int(swap.storage.counter) - 1
+
+        is_valid = swap.parameter.creator == token.creator_id and int(swap.parameter.royalties) == int(token.royalties)  # type: ignore
+
         swap_model = models.Swap(
             id=swap_id,  # type: ignore
             creator=holder,
