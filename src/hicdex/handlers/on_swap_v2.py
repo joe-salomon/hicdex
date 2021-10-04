@@ -33,9 +33,10 @@ async def on_swap_v2(
             is_valid=is_valid,
         )
         await swap_model.save()
+
+        await fix_other_metadata()
+        if not token.artifact_uri and not token.title:
+            await fix_token_metadata(token)
+
     except Exception:
         pass
-
-    await fix_other_metadata()
-    if not token.artifact_uri and not token.title:
-        await fix_token_metadata(token)
