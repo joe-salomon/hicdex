@@ -3,6 +3,7 @@ version: "3.8"
 services:
   hicdex:
     build: .
+    restart: always
     depends_on:
       - db
     volumes:
@@ -21,6 +22,7 @@ services:
 
   db:
     image: postgres:12
+    restart: always
     shm_size: 6g
     ports:
       - 5432:5432
@@ -43,6 +45,7 @@ services:
     image: hasura/graphql-engine:v2.0.1
     # ports:
     #   - 8081:8080
+    restart: always
     expose:
       - 8080
     depends_on:
@@ -58,6 +61,7 @@ services:
 
   caddy:
     image: caddy:2.4.0-alpine
+    restart: always
     depends_on:
       - "hasura"
     ports:

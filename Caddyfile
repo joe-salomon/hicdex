@@ -1,4 +1,10 @@
-:80 {
+	:80 {
+	handle_path /graphiql* {
+		root * /srv/api.hicdex.com
+		file_server
+	}
+
+	api.bunnyknights.com {
 	handle_path /graphiql* {
 		root * /srv/api.hicdex.com
 		file_server
