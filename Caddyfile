@@ -1,10 +1,4 @@
-	:80 {
-	handle_path /graphiql* {
-		root * /srv/api.hicdex.com
-		file_server
-	}
-
-	api.bunnyknights.com {
+(snippet) {
 	handle_path /graphiql* {
 		root * /srv/api.hicdex.com
 		file_server
@@ -35,4 +29,12 @@
 		header_up X-Forwarded-For {remote_host}
 		header_up X-Forwarded-Proto {scheme}
 	}
+}
+
+:80 {
+	import snippet
+}
+
+api.bunnyknights.com {
+	import snippet
 }
