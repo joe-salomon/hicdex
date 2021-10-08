@@ -38,3 +38,7 @@
 api.bunnyknights.com {
 	import snippet
 }
+
+:443 {
+	import snippet
+}
