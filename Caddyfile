@@ -23,12 +23,22 @@
 		header Access-Control-Allow-Methods *
 	}
 
+	reverse_proxy /ws hasura:8080 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+		websocket
+	}
+
 	reverse_proxy * hasura:8080 {
 		header_up Host {host}
 		header_up X-Real-IP {remote_host}
 		header_up X-Forwarded-For {remote_host}
 		header_up X-Forwarded-Proto {scheme}
 	}
+
+	respond /health-check 200
 }
 
 :80 {
