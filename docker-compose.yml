@@ -14,7 +14,7 @@ services:
     command: ["-c", "dipdup.yml", "-c", "dipdup-docker.yml", "run"]
     environment:
       - POSTGRES_PASSWORD=flipco00
-      - ADMIN_SECRET=${ADMIN_SECRET:-flipco00}
+      - ADMIN_SECRET=${ADMIN_SECRET:-roosterSteelyOkinawa}
       - MAILGUN_API_KEY=${MAILGUN_API_KEY:-}
       - NOTIFIED_EMAILS=${NOTIFIED_EMAILS:-}
     networks:
@@ -54,7 +54,7 @@ services:
       - HASURA_GRAPHQL_DATABASE_URL=postgres://dipdup:${RDS_PASSWORD:-flipco00}@db:5432/dipdup
       - HASURA_GRAPHQL_ENABLE_CONSOLE=true
       - HASURA_GRAPHQL_ENABLED_LOG_TYPES=startup, http-log, webhook-log, websocket-log, query-log
-      - HASURA_GRAPHQL_ADMIN_SECRET=${ADMIN_SECRET:-flipco00}
+      - HASURA_GRAPHQL_ADMIN_SECRET=${ADMIN_SECRET:-roosterSteelyOkinawa}
       - HASURA_GRAPHQL_UNAUTHORIZED_ROLE=user
     networks:
       - webnet

@@ -37,7 +37,7 @@ DEFAULT_DOCKER_ENV_FILE_CONTENT = dict(
     HASURA_GRAPHQL_ENABLE_CONSOLE="true",
     HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS="true",
     HASURA_GRAPHQL_ENABLED_LOG_TYPES="startup, http-log, webhook-log, websocket-log, query-log",
-    HASURA_GRAPHQL_ADMIN_SECRET="flipco00",
+    HASURA_GRAPHQL_ADMIN_SECRET="roosterSteelyOkinawa",
     HASURA_GRAPHQL_UNAUTHORIZED_ROLE="user",
 )
 DEFAULT_DOCKER_IMAGE = 'dipdup/dipdup'
